@@ -1,18 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { ToggleMenu } from '../ToggleMenu'
 import { useContext, useEffect } from 'react'
-import styles from './styles.module.css'
 import logo1 from '../../assets/logo1.svg'
 import { AuthContext } from '../../context/AuthContext'
+import { ButtonsHeader, ContainerHeader, ContentButtons, HeaderImg } from './style'
 
 export function Header() {
-  const { 
-    user, 
-    getUserLocalStorage, 
-    logout, 
-    isLogged, 
-    toggleIsLogged 
-  } = useContext(AuthContext)
+  const { user, getUserLocalStorage, logout, isLogged, toggleIsLogged } =
+    useContext(AuthContext)
 
   const navigate = useNavigate()
 
@@ -29,35 +24,33 @@ export function Header() {
   }, [])
 
   return (
-    <>
-      <div className={styles.headerContainer}>
-        <div className={styles.headerImg}>
-          <NavLink to="/" end title="Home">
-            <img src={logo1} alt="" />
-          </NavLink>
-          <p>Digital Booking</p>
-        </div>
-        <ToggleMenu />
+    <ContainerHeader>
+      <HeaderImg>
+        <NavLink to="/" end title="Home">
+          <img src={logo1} alt="" />
+        </NavLink>
+        <p>Digital Booking</p>
+      </HeaderImg>
+      <ToggleMenu />
 
-        {isLogged ? (
-          <div className={styles.headerButtons}>
-            {user && <span>Olá {user.name}!</span>}
-            <NavLink to="/cadastrar-produto">
-              <button>Gerenciar</button>
-            </NavLink>
-            <button onClick={handleLogout}>Sair</button>
-          </div>
-        ) : (
-          <div className={styles.headerButtons}>
-            <NavLink to="/register" end title="Criar conta">
-              <button>Criar conta</button>
-            </NavLink>
-            <NavLink to="/login" end title="Iniciar sessão">
-              <button>Iniciar sessão</button>
-            </NavLink>
-          </div>
-        )}
-      </div>
-    </>
+      {isLogged ? (
+        <ContentButtons>
+          {user && <span>Olá {user.name}!</span>}
+          <NavLink to="/cadastrar-produto">
+            <ButtonsHeader>Gerenciar</ButtonsHeader>
+          </NavLink>
+          <ButtonsHeader onClick={handleLogout}>Sair</ButtonsHeader>
+        </ContentButtons>
+      ) : (
+        <ContentButtons>
+          <NavLink to="/register" end title="Criar conta">
+            <ButtonsHeader>Criar conta</ButtonsHeader>
+          </NavLink>
+          <NavLink to="/login" end title="Iniciar sessão">
+            <ButtonsHeader>Iniciar sessão</ButtonsHeader>
+          </NavLink>
+        </ContentButtons>
+      )}
+    </ContainerHeader>
   )
 }
