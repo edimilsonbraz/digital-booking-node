@@ -4,38 +4,40 @@ import { faCircleCheck, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { ReservationContext } from '../../context/ReservationContext'
+import { ContainerSuccessR, ContentReserva, ReservaItem } from './style'
+import { Button } from '../../components/Button'
 
-export function ReservaSucedida() {
+export function SuccessReservation() {
   const { dataReserva } = useContext(ReservationContext)
   console.log(dataReserva)
   return (
-    <div className={style.container}>
+    <ContainerSuccessR>
       <FontAwesomeIcon icon={faCheck} style={{ color: 'green' }} size="4x" />
       <h1>Muito obrigado!</h1>
-      <p>Sua reserva foi feita com sucesso</p>
+      <p>Sua reserva foi feita com sucesso!</p>
 
-      <div className={style.contentReserva}>
+      <ContentReserva>
         <h3>Dados da reserva</h3>
         <div>
-          <div className={style.itemReserva}>
+          <ReservaItem>
             <p>Inicio:</p>
             <span>{dataReserva.dataCheckIn}</span>
-          </div>
+          </ReservaItem>
 
-          <div className={style.itemReserva}>
+          <ReservaItem>
             <p>Fim:</p>
             <span>{dataReserva.dataCheckOut}</span>
-          </div>
+          </ReservaItem>
 
-          <div className={style.itemReserva}>
+          <ReservaItem>
             <p>Horario check-in: </p>
             <span>{dataReserva.horaInicioReserva}</span>
-          </div>
+          </ReservaItem>
         </div>
-      </div>
+      </ContentReserva>
       <Link to="/">
-        <button>Voltar a página inicial</button>
+        <Button>Voltar a página inicial</Button>
       </Link>
-    </div>
+    </ContainerSuccessR>
   )
 }
