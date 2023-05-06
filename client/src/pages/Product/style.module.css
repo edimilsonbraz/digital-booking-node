@@ -89,8 +89,10 @@
 }
 
 .contentCalender {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  /* grid-template-columns: 1fr 1fr; */
   align-items: center;
 }
 

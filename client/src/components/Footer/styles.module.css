@@ -8,9 +8,13 @@
   height: 3.625rem;
   color: var(--white);
   font-weight: bold;
-  background: var(--primary);
+  background: var(--title);
   position: fixed;
   bottom: 0;
+}
+
+.containerFooter p {
+  color: var(--white);
 }
 
 .contentIconsFooter {
@@ -20,7 +24,7 @@
 
 .contentIconsFooter svg {
   width: 16px;
-  color: var(--title);
+  color: var(--white);
   cursor: pointer;
 }
 

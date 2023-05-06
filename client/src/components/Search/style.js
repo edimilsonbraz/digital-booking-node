@@ -1,11 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const SearchContainer = styled.div`
   color: white;
   display: flex;
   justify-content: center;
   position: relative;
-
 `
 
 export const SearchContent = styled.div`
@@ -34,9 +33,69 @@ export const HeaderSearchItem = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  svg.headerIcon {
+    color: lightgray;
+  }
+
+  input.headerSearchInput {
+    border: none;
+    outline: none;
+  }
+
+  span.headerSearchText {
+    color: lightgray;
+    cursor: pointer;
+  }
+
+  .date {
+    position: absolute;
+    top: 55px;
+    right: 385px;
+    z-index: 2;
+  }
 `
 
-export const ButtonLogin = styled.button` 
+export const Options = styled.div`
+  z-index: 2;
+  position: absolute;
+  top: 50px;
+  background-color: white;
+  color: gray;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
+`
+
+export const OptionItem = styled.div`
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+`
+
+export const OptionCounter = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: black;
+`
+
+export const OptionCounterButton = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #0071c2;
+  color: #0071c2;
+  cursor: pointer;
+  background-color: white;
+
+  &.optionCounterButton:disabled {
+    cursor: not-allowed;
+  }
+`
+
+export const ButtonBuscar = styled.button`
   display: block;
   background-color: var(--primary);
   color: var(--white);

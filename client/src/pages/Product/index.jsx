@@ -13,34 +13,33 @@ import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
 
 //imports icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronLeft,
   faChevronRight,
   faXmark,
-  faWifi,
-  faSwimmer,
-  faHome,
-  faTelevision,
-  faSnowflake,
-  faPaw,
-  faCar,
-  faPeopleRoof
+  faSnowflake
 } from '@fortawesome/free-solid-svg-icons'
-import { Calender } from '../../components/Calender'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+// import { Calender } from '../../components/Calender'
 import { Policy } from '../../components/Policy'
 
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
 import { HeaderDetailsProduct } from './HeaderDetailsProduct'
 import { ProductContext } from '../../context/ProductContext'
 import { ReservationContext } from '../../context/ReservationContext'
 import { AuthContext } from '../../context/AuthContext'
 
+import { DateRange } from 'react-date-range'
+import 'react-date-range/dist/styles.css' // main css file
+import 'react-date-range/dist/theme/default.css' // theme css file
+
 export function Product() {
   const { isLogged } = useContext(AuthContext)
   const { newProduct, setNewProduct } = useContext(ProductContext)
-  const { startDate, endDate, onChangeDates } = useContext(ReservationContext)
+  const { dates } = useContext(ReservationContext)
   const [loading, setLoading] = useState(true)
   console.log(newProduct)
   const navigateTo = useNavigate()
@@ -219,17 +218,18 @@ export function Product() {
         <div className={style.featuresIcons}>
           {newProduct.length != 0 &&
             newProduct.produtosCaracteristica.map((item) => (
-            <div key={item.id}>
-              <p>
-                <FontAwesomeIcon icon={faSnowflake} /> - {item.nomeCaracteristica}
-              </p>
-            </div>
-          ))}
+              <div key={item.id}>
+                <p>
+                  <FontAwesomeIcon icon={faSnowflake} /> -{' '}
+                  {item.nomeCaracteristica}
+                </p>
+              </div>
+            ))}
         </div>
       </section>
 
       <section className={`containerGlobal ${style.policyReserva}`}>
-        <Policy newProduct={newProduct}/>
+        <Policy newProduct={newProduct} />
       </section>
 
       <section className={style.containerReservation}>
@@ -237,11 +237,21 @@ export function Product() {
           <h2>Datas disponíveis</h2>
 
           <div className={style.contentCalender}>
-            <Calender
+            <DateRange
+              editableDateInputs={true}
+              onChange={item => setState([item.selection])}
+              moveRangeOnFirstSelection={false}
+              months={2}
+              direction="horizontal"
+              // ranges={dates}
+              // className="date"
+              minDate={new Date()}
+            />
+            {/* <Calender
               onChangeDates={onChangeDates}
               startDate={startDate}
               endDate={endDate}
-            />
+            /> */}
 
             <div className={style.calenderText}>
               <p>Adicione as datas da sua viagem para obter preços exatos</p>

@@ -9,6 +9,7 @@ import { ProductByCategory } from './components/ProductByCategory'
 import { ProdutoCadastrado } from './pages/ProdutoCadastrado'
 import { ResgisterProduct } from './pages/RegisterProduct'
 import { ErroCadastrar } from './pages/ErroCadastrar'
+import { ListHotels } from './pages/ListHotels'
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/produto/:id" element={<Product />} />
       <Route path="/produto/:id/reserva" element={<Reserva />} />
+      <Route path="/hotels" element={<ListHotels/>}/>
       <Route
         path="/produtos-por-categoria/:categoria"
         element={<ProductByCategory />}

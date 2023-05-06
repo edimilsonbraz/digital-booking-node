@@ -12,6 +12,13 @@ export const ReservationProvider = ({children}) => {
     setStartDate(start)
     setEndDate(end)
   }  
+  const [dates, setDates] = useState([
+    {
+      startDate: new Date(),
+      endDate: null,
+      key: 'selection'
+    }
+  ]);
 
   const [dataReserva, setDataReserva] = useState([]);
 
@@ -24,7 +31,8 @@ export const ReservationProvider = ({children}) => {
         startDate, 
         setStartDate,
         endDate,
-        setEndDate
+        setEndDate,
+        dates
       }}>
 
       {children}
