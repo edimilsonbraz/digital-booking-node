@@ -1,6 +1,5 @@
-import style from './style.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { ReservationContext } from '../../context/ReservationContext'

@@ -8,6 +8,8 @@ import {
 } from '../../Scripts/validateForm'
 import styles from './styles.module.css'
 import api from '../../service/api'
+import { ContainerError, ContainerRegister, ContentButton, ContentPassword, RegisterButton, RegisterContent, RegisterForm, RegisterInput, WrapperInput } from './style'
+import { Button } from '../../components/Button'
 
 export function Register() {
   const passwRef = useRef()
@@ -79,77 +81,83 @@ export function Register() {
     }
 
   return (
-    <div className={styles.register}>
+    <ContainerRegister>
       <h1>Criar conta</h1>
-      <form action="">
-        <div>
-          <div>
+      <RegisterForm>
+        <RegisterContent>
+          <WrapperInput>
             <label htmlFor="name">Nome</label>
-            <input
+            <RegisterInput
               className={firstname ? 'border-error' : ''}
               ref={nomeRef}
               type="text"
               name=""
               id="name"
+              required
             />
-          </div>
-          <div>
+          </WrapperInput>
+          <WrapperInput>
             <label htmlFor="lastname">Sobrenome</label>
-            <input
+            <RegisterInput
               className={lastname ? 'border-error' : ''}
               ref={sobrenomeRef}
               type="text"
               name=""
               id="lastname"
+              required
             />
-          </div>
-        </div>
-        <div>
+          </WrapperInput>
+        </RegisterContent>
+        <WrapperInput>
           <label htmlFor="email">E-mail</label>
-          <input
+          <RegisterInput
             className={emailError ? 'border-error' : ''}
             type="email"
             name=""
             id="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            required
           />
-        </div>
-        <div>
+        </WrapperInput>
+        <WrapperInput>
           <label htmlFor="password">Senha</label>
-          <div className={styles.containerPassword}>
-            <input
+          <ContentPassword>
+            <RegisterInput
               className={password ? 'border-error' : ''}
               ref={passwRef}
               type="password"
               name=""
               id="password"
+              required
             />
 
             <div ref={iconRef} id={styles.icon} onClick={showHide}></div>
-          </div>
-        </div>
-        <div>
+          </ContentPassword>
+        </WrapperInput>
+        <WrapperInput>
           <label htmlFor="confirmpassword">Confirmar Senha</label>
-          <input
+          <RegisterInput
             className={confirmPassword ? 'border-error' : ''}
             ref={confirmPasswRef}
             type="password"
             name=""
             id="confirmpassword"
+            required
           />
-        </div>
-        <div>
-          <button type="submit" onClick={handlerSubmit}>
+        </WrapperInput>
+        <ContentButton>
+          <Button type="submit" onClick={handlerSubmit}>
             Criar conta
-          </button>
+          </Button>
+          
           <span>
             Já tem uma conta? <Link to="/login">Iniciar sessão</Link>
           </span>
-        </div>
-      </form>
-      {firstname || firstname || password || confirmPassword || emailError ? (
-        <div className={styles.containerError}>
+        </ContentButton>
+      </RegisterForm>
+      {firstname || lastname || password || confirmPassword || emailError ? (
+        <ContainerError className={styles.containerError}>
           <ul>
             {firstname ? <li> * O nome digitado não é válido</li> : ''}
             {lastname ? <li> * O sobrenome digitado não é válido</li> : ''}
@@ -161,10 +169,10 @@ export function Register() {
             )}
             {confirmPassword ? <li> * As senhas devem ser idênticas</li> : ''}
           </ul>
-        </div>
+        </ContainerError>
       ) : (
         ''
       )}
-    </div>
+    </ContainerRegister>
   )
 }
