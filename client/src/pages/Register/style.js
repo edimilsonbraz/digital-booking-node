@@ -44,6 +44,11 @@ export const WrapperInput = styled.div`
     margin-bottom: 0.5rem;
   }
 
+  span {
+    color: red;
+    font-size: 0.875rem;
+  }
+
   @media screen and (max-width: 578px) {
     label {
       margin-top: 0.5rem;
@@ -59,19 +64,11 @@ export const RegisterInput = styled.input`
   box-shadow: 1px 1px 5px #00000034;
   padding: 5px;
   font-size: 1rem;
-
-  .border-error {
-    border: 12px;
-    background-color: rgba(255, 109, 109, 0.589);
-  }
 `
 
 export const ContentPassword = styled.div`
   position: relative;
 
-  div:nth-child(2) {
-    background-color: red;
-  }
 `
 
 export const ContentButton = styled.div`
@@ -81,22 +78,5 @@ export const ContentButton = styled.div`
 
   a {
     color: var(--primary);
-  }
-`
-
-export const ContainerError = styled.div`
-  width: 100%;
-  height: auto;
-  background-color: var(--white);
-  border: 2px solid rgba(255, 48, 48, 0.849);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  color: red;
-  border-radius: 5px;
-
-  li {
-    margin: 5px;
-    list-style: none;
   }
 `
