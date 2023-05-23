@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
         password
       })
 
-      console.log(request.data)
+      // console.log(request.data)
       return request.data
     } catch (error) {
       return null

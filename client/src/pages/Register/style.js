@@ -67,8 +67,6 @@ export const RegisterInput = styled.input`
 `
 
 export const ContentPassword = styled.div`
-  /* display: flex;
-  justify-content: space-between; */
   position: relative;
 
 `

@@ -1,66 +1,85 @@
-import { useRef, useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { checkEmail, checkPassword } from '../../Scripts/validateForm'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
+import { useForm } from 'react-hook-form'
 import { ToastContainer, toast } from 'react-toastify'
+
 import { AuthContext } from '../../context/AuthContext'
+import { Button } from '../../components/Button'
 
 import {
-  ContainerError,
   ContainerLogin,
-  ContentIcon,
+  ContentPasswordLogin,
+  IconLogin,
+  ImageEyELogin,
   InputLogin,
   LabelLogin,
-  LiError,
   LoginForm,
+  SpanError,
   SpanLink,
-  UlError,
   WrapperInput,
   WrapperSubmit
 } from './style'
-import { Button } from '../../components/Button'
+
+import eye from '../../assets/visibility.svg'
+import eyeoff from '../../assets/visibility-off.svg'
+
+const schema = yup
+  .object({
+    email: yup.string().required('Digite um email válido'),
+    password: yup
+      .string()
+      .min(6, 'A senha deve ter pelo menos 6 digitos!')
+      .required('A senha é obrigatória!')
+  })
+  .required()
 
 export function Login() {
-  const { authenticate } = useContext(AuthContext)
-  const passwRef = useRef()
-  const iconRef = useRef()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(schema)
+  })
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const { authenticate } = useContext(AuthContext)
+
+  const [inputType, setInputType] = useState('password')
+  const [icon, setIcon] = useState(eye)
 
   const navigate = useNavigate()
 
-  // Gerenciamento de erros do formulário com useState
-  const [passwordError, setPasswordError] = useState(false)
-  const [emailError, setEmailError] = useState(false)
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-
-    onFinish(email, password)
+  async function handleSubmitLogin(dataForm) {
+    console.log(dataForm.email, dataForm.password)
+    onFinish(dataForm.email, dataForm.password)
   }
 
+  //Função para visualização de senha do campo input
   const showHide = () => {
-    if (passwRef.current.type === 'password') {
-      passwRef.current.type = 'text'
-      iconRef.current.className = 'hide'
+    if (inputType === 'password') {
+      setInputType('text')
+      setIcon(eyeoff)
     } else {
-      passwRef.current.type = 'password'
-      iconRef.current.className = ''
+      setInputType('password')
+      setIcon(eye)
     }
   }
 
   async function onFinish(email, password) {
     try {
-      const isEmailValid = checkEmail(email)
-      const isPasswordValid = checkPassword(passwRef.current.value)
-
-      setEmailError(!isEmailValid)
-      setPasswordError(!isPasswordValid)
-
       await authenticate(email, password)
-      toast('Bem-vindo, ', { type: 'success', autoClose: 2000 })
-      navigate('/')
+      toast('Usuario cadastrado com sucesso!', {
+        type: 'success',
+        autoClose: 2000
+      })
+          //Limpa os campos do formulário
+          reset();
+          //Direciona para Home
+          navigate('/')
     } catch (error) {
       toast('Erro ao tentar logar ' + error, { type: 'error', autoClose: 2000 })
     }
@@ -69,58 +88,32 @@ export function Login() {
   return (
     <ContainerLogin>
       <h1>Iniciar sessão</h1>
-      <LoginForm>
+      <LoginForm onSubmit={handleSubmit(handleSubmitLogin)}>
         <WrapperInput>
           <LabelLogin htmlFor="email">E-mail</LabelLogin>
-          <InputLogin
-            className={emailError ? 'border-error' : ''}
-            type="email"
-            id="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
+          <InputLogin {...register('email', { required: true })} type="email" />
+          <SpanError>{errors.email?.message}</SpanError>
         </WrapperInput>
 
         <WrapperInput className="loginPassword">
           <LabelLogin htmlFor="password">Senha</LabelLogin>
-          <InputLogin
-            className={passwordError ? 'border-error' : ''}
-            ref={passwRef}
-            type="password"
-            id="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-          />
-          <ContentIcon
-            ref={iconRef}
-            id="icon"
-            onClick={showHide}
-          ></ContentIcon>
+          <ContentPasswordLogin>
+            <InputLogin
+              {...register('password', { required: true })} type={inputType}/>
+            <IconLogin onClick={showHide}>
+              <ImageEyELogin src={icon} />
+            </IconLogin>
+            <SpanError>{errors.password?.message}</SpanError>
+          </ContentPasswordLogin>
         </WrapperInput>
 
         <WrapperSubmit>
-          <Button type="submit" onClick={handleSubmit}>
-            Iniciar
-          </Button>
+          <Button type="submit">Iniciar</Button>
           <SpanLink>
             Não é cadastrado? <Link to="/register">Criar conta</Link>
           </SpanLink>
         </WrapperSubmit>
       </LoginForm>
-      {passwordError || emailError ? (
-        <ContainerError>
-          <UlError>
-            {emailError && <LiError> * E-mail digitado não é válido</LiError>}
-            {passwordError ? (
-              <LiError>* A senha deve ter mais de seis caracteres.</LiError>
-            ) : (
-              ''
-            )}
-          </UlError>
-        </ContainerError>
-      ) : (
-        ''
-      )}
       <ToastContainer />
     </ContainerLogin>
   )

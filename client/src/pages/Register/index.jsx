@@ -69,6 +69,7 @@ export function Register() {
           
           //Espera 3s para enviar o usuario p/ page Login
           setTimeout(() => {
+            //Direciona para Login
             navigate('/Login')
           }, 3000)
         }
@@ -140,7 +141,7 @@ export function Register() {
               {...register('password', { required: true })}
               type={inputType}
             />
-            <PasswordIcon className='password-icon' onClick={showHide}>
+            <PasswordIcon onClick={showHide}>
               <ImageEyE src={icon}/>
             </PasswordIcon>
             <span>{errors.password?.message}</span>
