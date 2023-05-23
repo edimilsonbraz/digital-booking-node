@@ -62,13 +62,27 @@ export const RegisterInput = styled.input`
   border-radius: 6px;
   border: none;
   box-shadow: 1px 1px 5px #00000034;
-  padding: 5px;
+  padding: 10px;
   font-size: 1rem;
 `
 
 export const ContentPassword = styled.div`
+  /* display: flex;
+  justify-content: space-between; */
   position: relative;
 
+`
+
+export const PasswordIcon = styled.span` 
+  position: absolute;
+  top: 8px;
+  right: 10px;
+`
+
+export const ImageEyE = styled.img` 
+  width: 25px;
+	height: 25px;
+	cursor: pointer;
 `
 
 export const ContentButton = styled.div`

@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -7,18 +7,22 @@ import * as yup from 'yup'
 import api from '../../service/api'
 import { ToastContainer, toast } from 'react-toastify'
 
+import { Button } from '../../components/Button'
+
 import {
   ContainerRegister,
   ContentButton,
   ContentPassword,
+  ImageEyE,
+  PasswordIcon,
   RegisterContent,
   RegisterForm,
   RegisterInput,
   WrapperInput
 } from './style'
-import { Button } from '../../components/Button'
 
-import styles from './styles.module.css'
+import eye from '../../assets/visibility.svg'
+import eyeoff from '../../assets/visibility-off.svg'
 
 const schema = yup
   .object({
@@ -42,15 +46,13 @@ const schema = yup
 export function Register() {
   const {
     register,
-    handleSubmit,
-    formState: { errors }
+    handleSubmit, reset,
+    formState: { errors, isSubmitting }
   } = useForm({
     resolver: yupResolver(schema)
   })
-
-  const passwRef = useRef()
-  const confirmPasswRef = useRef()
-  const iconRef = useRef()
+  const [inputType, setInputType] = useState('password')
+  const [icon, setIcon] = useState(eye)
 
   const navigate = useNavigate()
 
@@ -58,11 +60,14 @@ export function Register() {
     try {
       await api.post('api/v1/auth/register', userData).then((result) => {
         if (result.status == 200) {
-          toast('Usuario cadastrado! Agora só logar., ', {
+          toast('Usuario cadastrado com sucesso!', {
             type: 'success',
             autoClose: 2000
           })
-
+          //Limpa os campos do formulário
+          reset();
+          
+          //Espera 3s para enviar o usuario p/ page Login
           setTimeout(() => {
             navigate('/Login')
           }, 3000)
@@ -87,14 +92,14 @@ export function Register() {
     await registerUser(userData)
   }
 
+  //Função para visualização de senha do campo input
   const showHide = () => {
-    //Função para visualização de senha do campo input
-    if (passwRef.current.type === 'password') {
-      passwRef.current.type = 'text'
-      iconRef.current.className = `${styles.hide}`
+    if (inputType === 'password') {
+      setInputType('text')
+      setIcon(eyeoff)
     } else {
-      passwRef.current.type = 'password'
-      iconRef.current.className = ''
+      setInputType('password')
+      setIcon(eye)
     }
   }
 
@@ -133,24 +138,24 @@ export function Register() {
           <ContentPassword>
             <RegisterInput
               {...register('password', { required: true })}
-              // ref={passwRef}
-              type="password"
+              type={inputType}
             />
+            <PasswordIcon className='password-icon' onClick={showHide}>
+              <ImageEyE src={icon}/>
+            </PasswordIcon>
             <span>{errors.password?.message}</span>
-            <div ref={iconRef} id={styles.icon} onClick={showHide}></div>
           </ContentPassword>
         </WrapperInput>
         <WrapperInput>
           <label>Confirmar Senha</label>
           <RegisterInput
             {...register('confirmPassword', { required: true })}
-            // ref={confirmPasswRef}
             type="password"
           />
           <span>{errors.confirmPassword?.message}</span>
         </WrapperInput>
         <ContentButton>
-          <Button type="submit">Criar conta</Button>
+          <Button type="submit" disabled={isSubmitting}>Criar conta</Button>
 
           <span>
             Já tem uma conta? <Link to="/login">Iniciar sessão</Link>
